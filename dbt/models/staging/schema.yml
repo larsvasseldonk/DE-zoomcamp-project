@@ -1,0 +1,68 @@
+version: 2
+
+sources:
+  - name: staging
+    database: "{{ var('dbt_analytics')['gcp_project_id'] }}"
+    schema: capstone_dataset_2025       #bigquery dataset source
+    tables:
+      - name: premierleague_dataset     #bigquery dataset table
+        description: "english premier league match statistics"
+
+#   - name: dbt_premierleague_analytics   
+#     database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
+#     schema: dbt_premierleague_analytics  #bigquery dataset destination, will be generated after kestra run
+#     tables:
+#       - name: goals
+#         description: "check sample data"
+
+# sources:
+#   - name: core
+#     database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
+#     schema: dbt_premierleague_analytics
+#       # loaded_at_field: record_loaded_at
+#     tables:
+#       - name: goals
+#          # freshness:
+#            # error_after: {count: 6, period: hour}
+
+models:
+    - name: goals
+      description: >
+        All matches data in premier league
+      columns:
+          - name: season
+            description: Primary key for this table, generated with a concatenation of vendorid+pickup_datetime
+            tests:
+                - unique:
+                    severity: warn
+                - not_null:
+                    severity: warn
+          - name: date
+            description: > 
+                A code indicating the TPEP provider that provided the record.
+                1= Creative Mobile Technologies, LLC; 
+                2= VeriFone Inc.
+          - name: team
+            description: The date and time when the meter was engaged.
+          - name: side
+            description: The date and time when the meter was disengaged.
+          - name: goals_scored
+            description: The number of passengers in the vehicle. This is a driver-entered value.
+          - name: goals_conceded
+            description: The elapsed trip distance in miles reported by the taximeter.
+          - name: result
+            description: locationid where the meter was engaged.
+            #tests:
+             # - relationships:
+            #      to: ref('taxi_zone_lookup')
+            #      field: locationid
+             #     severity: warn
+       
+          # - name: Payment_type 
+          #   description: >
+          #     A numeric code signifying how the passenger paid for the trip.
+          #   tests: 
+          #     - accepted_values:
+          #         values: "{{ var('payment_type_values') }}"
+          #         severity: warn
+          #         quote: false
