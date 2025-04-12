@@ -1,9 +1,9 @@
 version: 2
 
 sources:
-  - name: sources
-    database: "{{ var('raw')['database'] }}"
-    schema: "{{ var('raw')['schema'] }}"
+  - name: raw
+    database: capstone-455515
+    schema: capstone_dataset_2025
       # loaded_at_field: record_loaded_at
     tables:
       - name: premierleague_dataset
