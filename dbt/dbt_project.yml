@@ -34,7 +34,7 @@ vars:
 
 models:
   dbt_premierleague:
-    staging:
-      materialized: view
-    core:
-      materialized: table
+  staging:
+    materialized: view
+  core:
+    materialized: table
