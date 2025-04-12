@@ -14,4 +14,4 @@ select
     sum(FullTimeAwayTeamGoals) as goals_scored, 
     sum(AwayTeamShotsOnTarget) as shots_on_target 
 from {{ source('zoomcamp', 'premierleague_dataset') }}
-group by season, AwayTeam;
+group by season, AwayTeam
