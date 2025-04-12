@@ -120,23 +120,13 @@ models:
       - name: season
         data_type: string
         description: "The year and month of the courses extraction. Example: 2025-03."
-        tests:
-          - not_null:
-              severity: warn
-
-      - name: date
-        data_type: date
-        description: "Dataset upload date. Example: 2025-03-19."
-        tests:
-          - not_null:
-              severity: warn
 
       - name: team
         data_type: string
         description: "company providing the course. Example: AFTRAL."
 
-      - name: side
-        data_type: string
+      - name: points
+        data_type: int64
         description: "Certification Title. Example: Certificate of aptitude for safe driving (CACES) Recommendation 482 category B1: Sequential movement extraction equipment."
 
       - name: goals_scored
@@ -147,7 +137,7 @@ models:
         data_type: int64
         description: "National Directory of Professional Certifications Code. Example: -1 (Because it has code_rs)."
 
-      - name: result
-        data_type: string
-        description: "Certifications listed in the RS inventory. Example: 7041."
+      - name: goals_difference
+        data_type: int64
+        description: "National Directory of Professional Certifications Code. Example: -1 (Because it has code_rs)."
     
