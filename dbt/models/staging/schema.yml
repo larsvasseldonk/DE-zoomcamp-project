@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: staging
     database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
-    schema: "dbt_premierleague_analytics"
+    schema: "{{ var('dbt_premierleague')['dataset'] }}"
       # loaded_at_field: record_loaded_at
     tables:
       - name: stg_away

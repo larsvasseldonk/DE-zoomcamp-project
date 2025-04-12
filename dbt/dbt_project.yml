@@ -25,6 +25,7 @@ clean-targets:
 vars:
   dbt_premierleague:
     gcp_project_id: capstone-455515
+    dataset: premierleague_dataset
     
 # In dbt, the default materialization for a model is a view. This means, when you run 
 # dbt run or dbt build, all of your models will be built as a view in your data platform. 
