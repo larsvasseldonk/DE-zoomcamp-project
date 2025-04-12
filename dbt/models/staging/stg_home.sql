@@ -7,4 +7,4 @@ select
     FullTimeAwayTeamGoals as goals_conceded,
     {{ home_match_result('FullTimeHomeTeamGoals', 'FullTimeAwayTeamGoals') }} as result
 from
-    {{ source('raw', 'premierleague_dataset') }}
+    {{ source('staging', 'premierleague_dataset') }}
