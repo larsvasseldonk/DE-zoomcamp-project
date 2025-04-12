@@ -1,14 +1,11 @@
 version: 2
-
 sources:
   - name: staging
     database: capstone-455515
     schema: capstone_dataset_2025
-      # loaded_at_field: record_loaded_at
     tables:
       - name: premierleague_dataset
-         # freshness:
-           # error_after: {count: 6, period: hour}
+        description: "space track general perturbations data containing satellite and debris information"
 
 # models:
 #     - name: stg_away
