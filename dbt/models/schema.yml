@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: zoomcamp
-    database: "{{ var('dbt_analytics')['gcp_project_id'] }}"
+    database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
     schema: capstone_dataset_2025       #bigquery dataset source
     tables:
       - name: premierleague_dataset     #bigquery dataset table
