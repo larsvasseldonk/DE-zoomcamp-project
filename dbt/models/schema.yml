@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: project_zoomcamp
+    database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
+    schema: capstone_dataset_2025
+    tables:
+      - name: premierleague_dataset
+        description: "english premier league match statistics"
+
+  - name: dbt_premierleague_analytics
+    database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
+    schema: dbt_premierleague_analytics
+    tables:
+      - name: test
+        description: "check sample data"
+      - name: orbit_debris
+        description: "derived data containing orbit info about debris in orbit"
+      
+      - name: lifespan_orbit
+        description: "derived information about satellite lifespan per orbit category"
