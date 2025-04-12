@@ -1,1 +1,1 @@
-select*from source('staging','stg_home') union all select*from source('staging','stg_away')
+select*from {{ ref('stg_home') }} union all select*from {{ ref('stg_away') }}
