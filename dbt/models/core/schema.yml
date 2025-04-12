@@ -18,7 +18,7 @@ version: 2
 # sources:
 #   - name: core
 #     database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
-#     schema: "{{ var('dbt_premierleague')['dataset'] }}"
+#     schema: dbt_premierleague_analytics
 #       # loaded_at_field: record_loaded_at
 #     tables:
 #       - name: goals

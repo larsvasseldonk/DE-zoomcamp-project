@@ -1,13 +1,12 @@
 version: 2
 
 sources:
-  - name: staging
-    database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
-    schema: "{{ var('dbt_premierleague')['dataset'] }}"
+  - name: sources
+    database: "{{ var('raw')['database'] }}"
+    schema: "{{ var('raw')['schema'] }}"
       # loaded_at_field: record_loaded_at
     tables:
-      - name: stg_away
-      - name: stg_home
+      - name: premierleague_dataset
          # freshness:
            # error_after: {count: 6, period: hour}
 
