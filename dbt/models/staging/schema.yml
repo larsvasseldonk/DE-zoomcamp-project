@@ -1,8 +1,8 @@
 version: 2
 sources:
   - name: staging
-    database: "{{ env_var('DBT_DATABASE', 'capstone-455515') }}"
-    schema: "{{ env_var('DBT_SCHEMA', 'capstone_dataset_2025') }}"
+    database: "{{ target.project }}" #"{{ env_var('DBT_DATABASE', 'capstone-455515') }}"
+    schema: "{{ target.dataset }}" #"{{ env_var('DBT_SCHEMA', 'capstone_dataset_2025') }}"
     tables:
       - name: premierleague_dataset
         description: "space track general perturbations data containing satellite and debris information"
