@@ -7,4 +7,6 @@ select
     FullTimeHomeTeamGoals as goals_conceded,
     {{ away_match_result('FullTimeHomeTeamGoals', 'FullTimeAwayTeamGoals') }} as result
 from
-    {{ source('staging', 'premierleague_dataset') }}
+    `capstone-455515.capstone_dataset_2025.premierleague_dataset`
+    
+/*{{ source('staging', 'premierleague_dataset') }}*/
