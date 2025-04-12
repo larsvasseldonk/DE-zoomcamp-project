@@ -1,0 +1,1 @@
+select*from source('staging','stg_home') union all select*from source('staging','stg_away')

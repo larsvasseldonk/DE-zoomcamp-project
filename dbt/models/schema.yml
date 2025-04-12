@@ -3,19 +3,14 @@ version: 2
 sources:
   - name: project_zoomcamp
     database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
-    schema: capstone_dataset_2025
+    schema: capstone_dataset_2025       #bigquery dataset source
     tables:
-      - name: premierleague_dataset
+      - name: premierleague_dataset     #bigquery dataset table
         description: "english premier league match statistics"
 
-  - name: dbt_premierleague_analytics
+  - name: dbt_premierleague_analytics   
     database: "{{ var('dbt_premierleague')['gcp_project_id'] }}"
-    schema: dbt_premierleague_analytics
+    schema: dbt_premierleague_analytics  #bigquery dataset destination, will be generated after kestra run
     tables:
-      - name: test
+      - name: goals
         description: "check sample data"
-      - name: orbit_debris
-        description: "derived data containing orbit info about debris in orbit"
-      
-      - name: lifespan_orbit
-        description: "derived information about satellite lifespan per orbit category"
