@@ -19,13 +19,6 @@ target-path: "target"
 clean-targets:         
   - "target"
   - "dbt_packages"
-
-# Here you can insert your project id from google cloud, it is not necessary for Kestra,
-# But if you want to do something else with this project you may need to add it here.
-vars:
-  dbt_premierleague_analytics:
-    gcp_project_id: capstone-455515
-    schema: dbt_premierleague_analytics
     
 # In dbt, the default materialization for a model is a view. This means, when you run 
 # dbt run or dbt build, all of your models will be built as a view in your data platform. 
