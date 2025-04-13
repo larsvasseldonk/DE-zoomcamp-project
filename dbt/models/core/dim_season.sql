@@ -1,0 +1,1 @@
+select distinct season from {{ ref('stg_ranking') }} 
