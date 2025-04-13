@@ -1,4 +1,4 @@
-with cte as (select 
+select 
     season, 
     HomeTeam as team, 
     "Home" as side, 
@@ -16,5 +16,4 @@ select
     sum(AwayTeamShotsOnTarget) as shots_on_target 
 from
      {{ source('zoomcamp', 'premierleague_dataset') }}
-group by season, AwayTeam)
-select*from cte
+group by season, AwayTeam
