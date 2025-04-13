@@ -19,7 +19,8 @@ with
         min(date) as unbeaten_start_date, 
         max(date) as unbeaten_end_date, 
         concat(min(date), " - ", max(date)) as unbeaten_period,
-        count(streak_identifier) as unbeaten_match_count 
+        count(streak_identifier) as unbeaten_match_count,
+        rank() over (order by count(streak_identifier) desc) as away_streak_ranking  
     from streak
     where away_result='Unbeaten'
     group by team,streak_identifier 
