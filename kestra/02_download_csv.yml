@@ -15,21 +15,17 @@ inputs:
     defaults: 2024
     required: true
     max: 2024
+
+triggers:
+  - id: refresh_data
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 16 * * *"
     
 variables:
   bucket_item_count: "{{ outputs.list_storage_items.blobs | length }}"
   gcs_file: "gs://{{kv('GCP_BUCKET_NAME')}}/premierleague_{{ render(inputs.season_start) ~ '-' ~ render(inputs.season_end) }}.csv"
   gcs_premierleague_raw: "{{ outputs.upload_gcs.uri }}"
-  # table: "{{kv('GCP_DATASET')}}.gp_{{trigger.date | date('yyyy-MM-dd')}}"
-  # data: "{{outputs.download_data.outputFiles['gp_' ~ (trigger.date | date('yyyy-MM-dd')) ~ '.csv']}}"
-  # previous_date: "{{ trigger.previous | date('yyyy-MM-dd') }}"
-  # year_last2d: "{{ inputs.season_start | string | slice(2,4) }}"
-  # next_year_last2d: "{{ render(inputs.season_start + 1) | string | slice(2,4) }}"
-  # season: "{{ render(vars.year_last2d) ~ render(vars.next_year_last2d)}}"
-  # uri: "https://www.football-data.co.uk/mmz4281/{{ render(vars.season) }}/E0.csv"
-  # data: "{{ render(outputs.download_csv.uri) }}"
-  # file: "{{'premierleague_' ~ render(vars.season) ~ '.csv'}}"
-  # gcs_file: "gs://{{ kv('GCP_BUCKET_NAME') }}/{{ vars.file }}"
+  
 
 tasks:
   
@@ -207,7 +203,6 @@ tasks:
     namespace: "{{ flow.namespace }}"
     branch: main
     delete: true
-    #dryRun: true
   
   - id: dbt-build
     type: io.kestra.plugin.dbt.cli.DbtCLI
@@ -241,3 +236,11 @@ tasks:
             timeout_seconds: 300
             fixed_retries: 1
         target: dev
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+      serviceAccount: "{{kv('GCP_CREDS')}}"
+      projectId: "{{kv('GCP_PROJECT_ID')}}"
+      location: "{{kv('GCP_LOCATION')}}"
+      bucket: "{{kv('GCP_BUCKET_NAME')}}"
