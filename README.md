@@ -384,7 +384,7 @@ Steps to connect BigQuery to Power BI
  * If signed in via Organizational account, follow the given instructions and log in.
  * If signed in via Service Account Login, use this [link](https://w3percentagecalculator.com/json-to-one-line-converter/) to convert the JSON key file content into a one-liner and paste into service account content box.
 
- <img src="https://github.com/tsk93/DE-zoomcamp-project/blob/main/images/dashboard.jpg"  width="600" height="400">
+ <img src="https://github.com/tsk93/DE-zoomcamp-project/blob/main/images/dashboard.jpg"  width="900" height="700">
 
 Observation: 
 * If a team has more shots on target, it is more likely they will score goals.
