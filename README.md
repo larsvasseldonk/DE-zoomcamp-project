@@ -157,7 +157,6 @@ Prerequisites
     git clone https://github.com/your-username/DE-zoomcamp-project.git
     cd DE-zoomcamp-project
 
-    * change repo name?
 
 Fork project repo, the URL will be required for Kestra dbtCLI step. You should have a git repo link that resembles below:
     
@@ -179,51 +178,35 @@ Fork project repo, the URL will be required for Kestra dbtCLI step. You should h
     * Dataflow Admin
 
 * In IAM & Admin --> Service Accounts, select Manage Keys. Create a new key and download as JSON file.
-* Save the key file to a secure location
+* Save the key file to a secure location.
 
 
 
-3. Create GCP Infrastructure with Terraform
-Modify Terraform Configuration Files
-Navigate to the terraform directory:
-cd terraform
-Edit the variables.tf file to update the project ID:
-variable "project" {
-  description = "Your GCP project ID"
-  default     = "your-project-id"
-}
-Initialize and Apply Terraform Configuration
-# Initialize Terraform
-terraform init
+### 3. Create GCP Infrastructure with Terraform
 
-# View the resource plan to be created
-terraform plan
+* Navigate to the terraform directory and modify the credentials and project variables in variables.tf file as required.
 
-### Configure Terraform
-terraform apply
+Credentials value: JSON key file location within terraform folder
+Project value: GCP Project ID
+
+Run the following commands:
+* terraform init
+* terraform plan
+* terraform apply
+
 After completion, you should see the following resources in the GCP console:
 
-GCS bucket lta-caravailability
-BigQuery datasets dbt_yzheng and carpark_raw
+GCS bucket: `capstone_bucket_2025` <br>
+BigQuery datasets: `capstone_dataset_2025` and `dbt_premierleague_analytics`
 
 
-#### Configure Bigquery:
-
-* Make sure to have following datasets in BigQuery:
-
-    * capstone_dataset_2025
-    * dbt_premierleague_analytics
-
-These are required for Kestra to generate the source tables.
-
-
-#### Configure Kestra
+### 4. Configure Kestra
 
 * Run docker compose up and use localhost:8080 to access Kestra UI.
 * Run the following commands to upload flows to Kestra, alternatively you can upload them manually from the kestra folder.
 
-    * curl -X POST http://localhost:8080/api/v1/flows/import -F fileUpload=@kestra/01_gcp_kv.yml
-    * curl -X POST http://localhost:8080/api/v1/flows/import -F fileUpload=@kestra/02_download_csv.yml
+    * `curl -X POST http://localhost:8080/api/v1/flows/import -F fileUpload=@kestra/01_gcp_kv.yml`
+    * `curl -X POST http://localhost:8080/api/v1/flows/import -F fileUpload=@kestra/02_download_csv.yml`
 
 * Currently a scheduled trigger has been set for the data extraction (12am daily, UTC+8). As Kestra scheduled triggers use UTC, you may adjust your preferred time accordingly (either by direct calculation or using the timezone property).
 
@@ -234,7 +217,7 @@ These are required for Kestra to generate the source tables.
 * For any changes you have made to files in the dbt folder, you will need to commit your new changes in the Github repo and re-run the Kestra flow. Changes will be applied via dbtCLI and updated in BigQuery.
 
 
-## Dashboard
+### 5. Dashboard Visualization Setup
 
 More details on the dashboard visualization can be found in zoomcamp_project.pbix.
 
@@ -245,7 +228,6 @@ Steps to connect BigQuery to Power BI
  * If signed in via Service Account Login, use this [link](https://w3percentagecalculator.com/json-to-one-line-converter/) to convert the JSON key file content into a one-liner and paste into service account content box.
  * After successful connection, you will be able to see the dbt tables. Select and load the following queries:
 
-    
         dim_season
         fct_away_streak
         fct_home_streak
