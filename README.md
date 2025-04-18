@@ -148,12 +148,11 @@ Prerequisites
 
 * Google Cloud Platform account
 * Terraform installed
-* Google Cloud SDK installed (?)
 * Docker and Docker Compose installed
 * Git installed
 * No dbt cloud account is required, as you can leverage the dbt plugin in Kestra for workflow orchestration.
 
-### # 1. Preparation
+### 1. Preparation
 
     git clone https://github.com/your-username/DE-zoomcamp-project.git
     cd DE-zoomcamp-project
@@ -170,36 +169,20 @@ Fork project repo, the URL will be required for Kestra dbtCLI step. You should h
 #### Create GCP Project
 * Go to Google Cloud Console and create a new project. 
 * Note the project ID and project number.
-* Enable billing (requires a credit card, but you can use free credits)
+* Enable account billing
 
 #### Create Service Account and Authorization
 * Create a new service account
 * Grant the service account the following permissions:
-    * Viewer
     * Storage Admin
-    * Storage Object Admin
     * BigQuery Admin
     * Dataflow Admin
-    * Compute Admin
-* Create and download the JSON format key file
+
+* In IAM & Admin --> Service Accounts, select Manage Keys. Create a new key and download as JSON file.
 * Save the key file to a secure location
 
 
-Set Up Local Authentication
-# Set environment variable pointing to your service account key
-export GOOGLE_APPLICATION_CREDENTIALS="path/to/your/service-account-key.json"
 
-# Refresh token and verify identity
-gcloud auth application-default login
-Enable Required APIs
-Enable the following APIs in the GCP console:
-
-Compute Engine API
-BigQuery API
-Dataflow API
-Cloud Storage API
-Identity and Access Management (IAM) API
-IAM Service Account Credentials API
 3. Create GCP Infrastructure with Terraform
 Modify Terraform Configuration Files
 Navigate to the terraform directory:
@@ -216,7 +199,7 @@ terraform init
 # View the resource plan to be created
 terraform plan
 
-# Create resources (enter yes to confirm)
+### Configure Terraform
 terraform apply
 After completion, you should see the following resources in the GCP console:
 
@@ -241,7 +224,6 @@ These are required for Kestra to generate the source tables.
 
     * curl -X POST http://localhost:8080/api/v1/flows/import -F fileUpload=@kestra/01_gcp_kv.yml
     * curl -X POST http://localhost:8080/api/v1/flows/import -F fileUpload=@kestra/02_download_csv.yml
-    * *** verify filename before submission
 
 * Currently a scheduled trigger has been set for the data extraction (12am daily, UTC+8). As Kestra scheduled triggers use UTC, you may adjust your preferred time accordingly (either by direct calculation or using the timezone property).
 
@@ -250,128 +232,6 @@ These are required for Kestra to generate the source tables.
 * You will need to replace the URL of the Github repo in the `id: sync` task (after `id: purge_files`) with the one that you have after forking the Github repo.
 
 * For any changes you have made to files in the dbt folder, you will need to commit your new changes in the Github repo and re-run the Kestra flow. Changes will be applied via dbtCLI and updated in BigQuery.
-
-* You should see several tables in BigQuery. You may use below table to verify the row count.
-
-
-
-
-## Set Up Kafka Stream Processing Environment
-Start Kafka and Zookeeper
-Navigate to the processing directory:
-cd ../processing
-Start Kafka and Zookeeper containers:
-docker-compose up -d
-This will start Kafka and Zookeeper containers, preparing for data stream processing.
-
-## Set Up Airflow Workflow Orchestration
-Configure Airflow Environment
-Navigate to the orchestration directory:
-cd ../orchestration
-Ensure the .env file is correctly configured (should be the same or similar to the root directory's .env file)
-
-Start Airflow containers:
-
-docker-compose up -d
-Access the Airflow interface:
-Open your browser and navigate to http://localhost:8085
-Log in using the default username and password (airflow/airflow)
-Configure Airflow Connections
-In the Airflow web interface:
-
-
-7. Run dbt Models
-Initialize and Run Models
-In the dbt Cloud IDE, go to the "Develop" page
-
-
-
-
-Go to "Environments" > "New Environment"
-Environment name: Production
-Environment type: Deployment
-Connection: BigQuery
-Dataset: dbt_yzheng
-Test connection and save
-Create scheduled job:
-
-Go to "Jobs" > "Create Job"
-Job name: dbt_daily_build
-Environment: Production
-Commands:
-dbt run
-dbt test
-Set appropriate schedule frequency
-Save and run the job to test
-8. Create Looker Studio Dashboard
-Connect Data Source
-Go to Looker Studio
-Click "Create" > "Report"
-Select "BigQuery" as the data source
-In the connection selection interface:
-Select your GCP project
-Select dataset dbt_yzheng
-Select table rpt_carpark_utilization
-Click "Connect"
-Design Dashboard - Page 1 "Real-time Analysis"
-Add title and description:
-Add title: "Singapore Carpark Availability Dashboard"
-Add descriptive text mentioning the data pipeline operational period (3.28-3.30)
-Create map visualization:
-Select "Add a chart" > "Map"
-Configure the map to use Latitude and Longitude fields
-Set bubble size based on available parking spaces
-Add metric cards:
-Create "Last Updates" card: March 30, 2025, 12:00 AM
-Create "Total Carparks" card: 500
-Create "Total Data Points" card: 152,000
-Create "Average Available Lots" card: 161
-Create "Average Available Lots by Area" bar chart:
-Add bar chart, using Area as dimension
-Use average available parking spaces as metric
-Add filters:
-Create "Select Agency" dropdown menu
-Create "Select Area" dropdown menu
-Create "Parking Type" dropdown menu
-Create "Select Carpark ID" dropdown menu
-Design Dashboard - Page 2 "Historical Analysis"
-Add new page, name it "Historical Analysis"
-Create "24-Hour Availability Trend" time series chart:
-Add time series chart
-Use hour as X-axis
-Use average available parking spaces as Y-axis
-Create "Available Lots by Time Category" grouped bar chart:
-Add bar chart
-Use time category as dimension
-Use average available parking spaces as metric
-Create "Hourly Heatmap by Area" heatmap:
-Add table
-Use area as rows
-Use hour as columns
-Use average available parking spaces as metric
-Apply conditional formatting
-Create "Most Crowded Carparks" ranking table:
-Add table
-Use carpark name as dimension
-Use average available parking spaces as sorting metric
-Sort in ascending order (fewest available spaces first)
-Beautify and Optimize Dashboard
-Adjust size and position of all charts to ensure an attractive layout
-Add appropriate titles and descriptions for each chart
-Add page navigation to make the dashboard easy to use
-Set appropriate data formats (number formats, percentages, etc.)
-Adjust colors and fonts to improve readability
-Save and share the dashboard
-
-
-9. Validate the Entire Data Pipeline
-Check Airflow DAG status to confirm data extraction tasks are running properly
-Confirm data is correctly stored in GCS
-Confirm raw table data is loaded in BigQuery
-Confirm dbt models correctly transform data and create final report tables
-Confirm data visualization displays correctly in Looker Studio dashboard
-
-
 
 
 ## Dashboard
@@ -383,6 +243,19 @@ Steps to connect BigQuery to Power BI
  * Under Advanced Options, key in project ID.
  * If signed in via Organizational account, follow the given instructions and log in.
  * If signed in via Service Account Login, use this [link](https://w3percentagecalculator.com/json-to-one-line-converter/) to convert the JSON key file content into a one-liner and paste into service account content box.
+ * After successful connection, you will be able to see the dbt tables. Select and load the following queries:
+
+    
+        dim_season
+        fct_away_streak
+        fct_home_streak
+        fct_goals_scored
+        fct_goals_conceded
+        fct_goal_margin
+        fct_points_dropped
+        fct_ranking
+        fct_shot_conversion
+
 
  <img src="https://github.com/tsk93/DE-zoomcamp-project/blob/main/images/dashboard.jpg"  width="900" height="700">
 
