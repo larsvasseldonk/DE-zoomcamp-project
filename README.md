@@ -1,7 +1,7 @@
 # Soccer Match Analysis Project
 
 ## Overview
-This project aims to analyze soccer match results from ______. The dataset contains English Premier League (EPL) match results from season 2000/01 to 2024/25. It provides various match statistics such as goals scored/conceded and total shots/shots on target. Through building an end-to-end data pipeline using a variety of tools, data ingestion, transformation and visualization are enabled in an end-to-end process. This project aims to address the following questions:
+This project aims to analyze soccer match results from [Football-Data](https://football-data.co.uk/). The dataset contains English Premier League (EPL) match results from season 2000/01 to 2024/25. It provides various match statistics such as goals scored/conceded and total shots/shots on target. Through building an end-to-end data pipeline using a variety of tools, data ingestion, transformation and visualization are enabled in an end-to-end process. This project aims to address the following questions:
 
 * How does the Big 6 premier league rankings change over time?
 * Which matches had the largest victory margin?
@@ -21,7 +21,7 @@ The primary objective is to develop a dashboard that visualizes:
 * League positions over time, particularly focusing on the Big 6 to track their performance across seasons.
 * How clinical teams are across seasons, by tracking their shot conversion rate.
 
-A key challenge was that different seasons may not have the same match statistics. This has been addressed when developing the Python script in Kestra to ensure successful pipeline run. A solution that handles schema evolution could be implemented as an alternative solution.
+A key challenge is that different seasons may not have the same match statistics. This has been addressed when developing the Python script in Kestra to ensure successful pipeline run. A solution that handles schema evolution could be implemented as an alternative solution.
 
 
 ## Directory Structure
@@ -32,11 +32,6 @@ A key challenge was that different seasons may not have the same match statistic
 ## Data Source
 
 Match results were scraped from _____. For simplicity, the project focuses on EPL data.
-Carpark Information. This is a static csv updated monthly containing master information about carpark data, such as carpark location, type and other properties.
-Housing & Development Board. (2015). HDB Carpark Information (2025) [Dataset]. data.gov.sg. Retrieved March 25, 2025 from https://data.gov.sg/datasets/d_23f946fa557947f93a8043bbef41dd09/view
-Carpark Availability. This is an open RestAPI which provide real time carpark availability information for every minutes. The API only takes in 1 parameter, which is the exact timestamp in YYYY-MM-DD[T]HH:mm:ss (SGT). For this project, we are doing batch processing, retriving data at 9am SGT per day from 2023 onwards.
-Housing & Development Board. (2018). Carpark Availability (2023) [Dataset]. data.gov.sg. Retrieved March 25, 2025 from https://data.gov.sg/datasets/d_ca933a644e55d34fe21f28b8052fac63/view
-
 
 
 The dashboard I created focuses on two key aspects:
