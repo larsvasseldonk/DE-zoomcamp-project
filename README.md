@@ -40,7 +40,13 @@ A key challenge is that different seasons may not have the same match statistics
 
 ## Data Architecture
 
-* TBD
+The data flow starts from [Football-Data](https://football-data.co.uk/) and proceeds through the following steps:
+
+* Data Extraction: A script command was implemented in Kestra to download soccer match data, the latest data can be retrieved by using a scheduled trigger.
+* Data Storage: Raw data as csv format is stored in a data lake, whereas structured data is loaded into a data warehouse.
+* Data Modeling: Data transformation and modeling is done in dbt and modified tables are created in BigQuery.
+* Data Visualization: BigQuery tables are imported into Power BI. A data model can be established to enable creation of interactive visuals within a report/dashboard.
+
 
 
 ## Steps to Reproduce Project
