@@ -26,6 +26,11 @@ variable "bq_dataset_name" {
   default     = "capstone_dataset_2025"
 }
 
+variable "bq_dataset2_name" {
+  description = "My BigQuery Dataset Name"
+  default     = "dbt_premierleague_analytics"
+}
+
 variable "gcs_bucket_name" {
   description = "My Storage Bucket Name"
   default     = "capstone_bucket_2025"
