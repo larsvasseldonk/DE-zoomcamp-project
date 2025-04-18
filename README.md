@@ -40,9 +40,8 @@ The dashboard I created focuses on two key aspects:
 
 * Price & Discount Comparisons – Examining pricing strategies and discounts across different products.
 
-[Link to the dashboard in Looker Studio](https://lookerstudio.google.com/reporting/5acd6f02-165f-44d7-9016-b6ba0766aeb9)
+[Link to Power BI dashboard](https://github.com/tsk93/DE-zoomcamp-project/blob/main/images/dashboard.jpg)
 
-![dashboard](https://github.com/saraisab/Amazon_project_DE_saraisab/blob/main/images/dashboard.jpg)
 
 
 ## Tools 🛠️
@@ -385,15 +384,13 @@ Steps to connect BigQuery to Power BI
  * If signed in via Organizational account, follow the given instructions and log in.
  * If signed in via Service Account Login, use this [link](https://w3percentagecalculator.com/json-to-one-line-converter/) to convert the JSON key file content into a one-liner and paste into service account content box.
 
+ <img src="https://github.com/tsk93/DE-zoomcamp-project/blob/main/images/dashboard.jpg"  width="600" height="400">
+
 Observation: 
 * If a team has more shots on target, it is more likely they will score goals.
 * It has been almost 20 years since Chelsea established the record for least goals conceded in a season, and it is an extremely remarkable achievement given the number of quality players back then.
 * Man City set the record for most goals scored in 2017/18, boasting an impressive shot conversion rate of approximately 41%. It is also no surprise that they won several matches by an impressive goal margin.
-* It is generally observed that the Big 6 teams finish in the top half of the table (1st-10th), which reflects their dominance in the league.  
-
-- insert dashboard image
-- shot conversion rate tooltip change to avg
-- add chart title measure
+* It is generally observed that the Big 6 teams finish in the top half of the table (1st-10th), which reflects their dominance in the league.
 
 
 ## Future Improvements
@@ -411,8 +408,48 @@ Observation:
 ## Folders/Root Files Information
 
 
-* insert tree structure showing folder/file directory
 
+    ├── README.md
+    ├── dbt
+    │   ├── dbt_project.yml
+    │   ├── macros
+    │   │   ├── away_match_result.sql
+    │   │   ├── dropped_points_away.sql
+    │   │   ├── dropped_points_home.sql
+    │   │   ├── home_match_result.sql
+    │   │   ├── points.sql
+    │   │   └── streak.sql
+    │   └── models
+    │       ├── core
+    │       │   ├── dim_season.sql
+    │       │   ├── fct_away_streak.sql
+    │       │   ├── fct_goal_margin.sql
+    │       │   ├── fct_goals_conceded.sql
+    │       │   ├── fct_goals_scored.sql
+    │       │   ├── fct_home_streak.sql
+    │       │   ├── fct_points_dropped.sql
+    │       │   ├── fct_ranking.sql
+    │       │   └── fct_shot_conversion.sql
+    │       └── staging
+    │           ├── schema.yml
+    │           ├── stg_away.sql
+    │           ├── stg_away_streak.sql
+    │           ├── stg_home.sql
+    │           ├── stg_home_streak.sql
+    │           ├── stg_points_dropped.sql
+    │           ├── stg_ranking.sql
+    │           └── stg_shot_conversion.sql
+    ├── docker-compose.yml
+    ├── images
+    │   └── dashboard.jpg
+    ├── kestra
+    │   ├── 01_gcp_kv.yml
+    │   └── 02_download_csv.yml
+    ├── terraform
+    │   ├── keys
+    │   ├── main.tf
+    │   └── variables.tf
+    └── zoomcamp_dashboard.pbix
 
 
 ## Acknowledgements
