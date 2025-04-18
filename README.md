@@ -93,7 +93,7 @@ Fork project repo, the URL will be required for Kestra dbtCLI step. You should h
 
 * Navigate to the terraform directory and modify the credentials and project variables in variables.tf file as required.
 
-Credentials value: JSON key file location within terraform folder
+Credentials value: JSON key file location within terraform folder <br>
 Project value: GCP Project ID
 
 Run the following commands separately:
@@ -160,7 +160,7 @@ Observation:
 | Scope | Item |
 | :---: |  :---:  |
 | Data   | <li>Include match data from other top leagues (eg. Bundesliga, La Liga, Serie A etc)</li> <li>Include match data from lower-level leagues to calculate promotion/relegation statistics</li><li>Include player data to calculate player statistics (eg. goals scored/clean sheets made etc)</li> |
-| Workflow Orchestration   | <li>To include workflow steps to handle failure (eg. schema evolution, data type conversion failure etc)</li><li>Explore opportunity to use file metadata information within pipeline</li><li>Incorporate pipeline scheduling/backfill</li><li>Incremental data loading to avoid table truncate/insert, especially if data volume is very large</li> |
+| Workflow Orchestration   | <li>To include workflow steps to handle failure (eg. schema evolution, data type conversion failure etc)</li><li>Explore opportunity to use file metadata information within pipeline</li><li>Incremental data loading to avoid table truncate/insert, especially if data volume is significant</li> |
 | Data Transformation   | <li>Explore other components of dbt (eg. snapshots, seeds, documentation etc)</li> <li>Explore Spark transformations as an alternative solution to dbt (eg. using Dataproc in GCP, SparkCLI in Kestra)</li> |
 | IaC   | <li> Explore use of GCP VM to help with project deployment </li> |
 | CI/CD | <li> Explore use of Kestra and dbt to create a CI/CD pipeline
