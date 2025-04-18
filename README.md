@@ -24,118 +24,19 @@ The primary objective is to develop a dashboard that visualizes:
 A key challenge is that different seasons may not have the same match statistics. This has been addressed when developing the Python script in Kestra to ensure successful pipeline run. A solution that handles schema evolution could be implemented as an alternative solution.
 
 
-## Directory Structure
+## Tech Stack
 
-
-## Data Architecture
-
-## Data Source
-
-Match results were scraped from _____. For simplicity, the project focuses on EPL data.
-
-
-The dashboard I created focuses on two key aspects:
-
-* Product Ratings – Comparison between ratings in different products.
-
-* Price & Discount Comparisons – Examining pricing strategies and discounts across different products.
-
-[Link to Power BI dashboard](https://github.com/tsk93/DE-zoomcamp-project/blob/main/images/dashboard.jpg)
-
-
-
-## Tools 🛠️
-
-I've worked with this tools in order to complete the project:
-* **Terraform**: Configures the bucket in GCP (IaC) 🏗️ 
-* **Docker**: Container to host the Kestra platform. 🐳
-* **Kestra**: Orchestration Platform 🔄
-* **Google Cloud Platform**: ☁️
+* **Terraform**: GCP bucket and dataset configuration via Infrastructure as Code (IaC)
+* **Docker**: Container to host Kestra
+* **Kestra**: Workflow Orchestration tool
+    - **Python**: Script command utilized Pandas for data preprocessing
+    - **dbt**: Data transformation (in this project dbtCLI was used)
+* **Google Cloud Platform**:
     - **Google Cloud Storage**: Data Lake Storage
     - **BigQuery**: Data Warehouse 
-    - **Power BI**: Data visualization
-* **Python**: Pipeline to clean the data ⚙️
-* **dbt**: Data transformation 📥
-
-![flowchart_project](https://github.com/saraisab/Amazon_project_DE_saraisab/blob/main/images/Flowchart.jpeg)
-
-## Dataset 🎛️
-The dataset I choose was: *Amazon Products Sales Dataset 2023* from Kaggle
-
-Link here: [Amazon Products Sales Dataset 2023](https://www.kaggle.com/datasets/lokeshparab/amazon-products-dataset/code)
-
-- Its product data are separated by 142 categories in csv format.
-- Each csv files are consist of 10 columns and each row has products details accordingly
-#### Features
-| name             | description                                                    |
-| ---------------- | -------------------------------------------------------------- |
-| _name_           | The name of the product                                        |
-| _main_category_  | The main category of the product belong                        |
-| _sub_category_   | The main category of the product belong                        |
-| _image_          | The image of the product look like                             |
-| _link_           | The amazon website reference link of the product               |
-| _ratings_        | The ratings given by amazon customers of the product           |
-| _no of ratings_  | The number of ratings given to this product in amazon shopping |
-| _discount_price_ | The discount prices of the product                             |
-| _actual_price_   | The actual MRP of the product                                  |
+* **Power BI**: Data visualization
 
 
-----
-
-## Steps to start running the Project
-
-**Prerequisites**
-
-To run this project you need to have installed these tools: Kestra, Terraform, Docker and an account in Google Cloud Platform. Moreover, I've used WSL in windows for Linux.
-
-* Firstly: 
-    * Copy to your directory the Terraform files. Change the key path if it is necessary. Execute these three commands separately:
-   ```
-    terraform init
-    terraform plan
-    terraform apply
-    ```
-* Secondly:
-    * With docker working, write this in the subsystem Linux to start the Kestra platform:
-    ```
-    docker run --pull=always --rm -it -p 8080:8080 --user=root -v /var/run/docker.sock:/var/run/docker.sock -v /tmp:/tmp kestra/kestra:latest server local
-    ```
-    To start the Kestra environment in your webserver type:
-    http://localhost:8080
-    * Import all the flows in the [Kestra_flows directory](https://github.com/saraisab/Amazon_project_DE_saraisab/tree/main/Kestra_flows) to your kestra environment.
-    (Ensure to include your google cloud keys into the *project_zoomcamp.01_gcp_kv.yml* file)
-
-* Thirdly:
-    * Run the flow_controller.yml. This is going to:
-        * Set the configuration file that manages Google Cloud Platform (GCP) key-value pairs. It is for manage the enviroment variables in Kestra.
-        * Data ingestion: Download the datasets from kaggle, insert the raw csv files into the bucket previously created.  
-        * ETL: Download the data from the datalake to clean and transform the data employing the pandas library from python. Besides, upload the data to BigQuery making use of the DLT resources in python.
-* Finally:
-    * Run the flow *project_zoomcamp.05_bigquery_querys.yml*. It needs the name of your dataset created by DLT as an input. It is going to be creating the data models. With this, new tables and views in BigQuery are going to be created, inserted and updated, which are necessary for the final dashboard. I have divided the data from one table into three to reduce data redundancy and make easier the data management. I have clustered the main table (amazon_products) in order to improve query performance, to reduce the number of scanned bytes for queries and for cost optimization. 
-
-    ![Data_models](https://github.com/saraisab/Amazon_project_DE_saraisab/blob/main/images/sql_models.jpeg)
-
-## Tests
-* In kestra you can check the logs, if there exist any error, it will help you. Besides, in the flow_controller there are several "prints" to give information about the process running, you can check it in the logs.
-
-* To test the data validation in BigQuery you can run these querys:
-    * It'll tell you if there exist any null in the clustered table:
-        ```sql
-        SELECT 
-            SUM(CASE WHEN no_of_ratings IS NULL THEN 1 ELSE 0 END) AS no_of_ratings_null,
-            SUM(CASE WHEN ratings IS NULL THEN 1 ELSE 0 END) AS ratings_null,
-            SUM(CASE WHEN discount_price IS NULL THEN 1 ELSE 0 END) AS discount_price_null,
-            SUM(CASE WHEN actual_price IS NULL THEN 1 ELSE 0 END) AS actual_price_null
-        FROM 
-            `project_name.dataset_name.amazon_products_clustered`;
-        ```
-
-    * Query to guess the total number of the rows, *in my case it's 1.103.170*:
-        ```sql
-        SELECT 
-            COUNT(*) AS Total_rows
-        FROM 
-            `project_name.dataset_name.amazon_products_clustered`;
 
 ## Data Architecture
 
@@ -144,7 +45,7 @@ To run this project you need to have installed these tools: Kestra, Terraform, D
 
 ## Steps to Reproduce Project
 
-Prerequisites
+Prerequisites:
 
 * Google Cloud Platform account
 * Terraform installed
@@ -189,7 +90,7 @@ Fork project repo, the URL will be required for Kestra dbtCLI step. You should h
 Credentials value: JSON key file location within terraform folder
 Project value: GCP Project ID
 
-Run the following commands:
+Run the following commands separately:
 * terraform init
 * terraform plan
 * terraform apply
@@ -308,4 +209,4 @@ Observation:
 
 
 ## Acknowledgements
-This project is created as part of [Data Engineering Zoomcamp 2025](https://github.com/DataTalksClub/data-engineering-zoomcamp) project submission. I would like to thank [DataTalksClub](https://github.com/DataTalksClub) for providing this learning opportunity.    
+This project is created as part of [Data Engineering Zoomcamp 2025](https://github.com/DataTalksClub/data-engineering-zoomcamp) project submission. I would like to thank [DataTalksClub](https://github.com/DataTalksClub) for providing this learning opportunity.
