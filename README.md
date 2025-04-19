@@ -38,7 +38,7 @@ A key challenge is that different seasons may not have the same match statistics
 
 
 
-## Data Architecture
+## Project Architecture
 
  <img src="https://github.com/tsk93/DE-zoomcamp-project/blob/main/images/data%20architecture.jpg"  width="900" height="450">
 
