@@ -29,8 +29,8 @@ clean-targets:
 
 vars:
   dbt_premierleague:
-    gcp_project_id: capstone-455515
-    schema: capstone_dataset_2025
+    gcp_project_id: sandbox-450016
+    schema: football_dataset_2025
 
 models:
   dbt_premierleague:
